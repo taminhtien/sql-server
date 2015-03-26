@@ -134,3 +134,80 @@ VALUES (
 	'03/27/2015'
 )
 GO
+
+-- Create Index in Person table
+CREATE INDEX PIndex
+On Persons (LastName)
+GO
+
+-- Create Identity column
+CREATE TABLE Customer(
+	CustomerID int IDENTITY(1, 1) PRIMARY KEY,
+	CustomerName nvarchar(50) NOT NULL,
+	ContactName nvarchar(100),
+	Address nvarchar(100),
+	City nvarchar(50),
+	PostalCode nvarchar(50),
+	Country nvarchar(50)
+)
+GO
+
+INSERT INTO Customer
+VALUES (
+	'Ta Minh Tien',
+	'Tien Ta',
+	'38 Nguyen Tu Nha',
+	'TP HCM',
+	'80000',
+	'Viet Nam'
+)
+GO
+
+INSERT INTO Customer
+VALUES (
+	'Ta Minh Tien',
+	'Tien Ta',
+	'38 Nguyen Tu Nha',
+	'TP HCM',
+	'80000',
+	'Viet Nam'
+)
+GO
+
+-- TRUNCATE statement
+TRUNCATE TABLE PersonNotNull
+GO
+
+-- View demo
+-- First, insert data
+INSERT INTO Product
+VALUES(
+	3,
+	'Exiter',
+	'Exiter 1015',
+	62000,
+	60000
+)
+GO
+
+INSERT INTO Product
+VALUES(
+	4,
+	'Suzuki',
+	'Suzuki 2015',
+	102000,
+	90000
+)
+GO
+
+-- Create new view
+CREATE VIEW [Current Product List] AS
+	SELECT ProductID, ProductName
+	FROM Product
+	WHERE WholeSalePrice >= 60000
+GO
+
+-- Test
+SELECT * FROM [Current Product List]
+
+DROP VIEW [Current Product List]
