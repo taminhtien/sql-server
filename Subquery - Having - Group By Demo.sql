@@ -37,5 +37,51 @@ WHERE CountryRegionCode IN (
 	
 -- Q4-2:
 
+SELECT CR.Name
+FROM Person.CountryRegion AS CR
+JOIN Person.StateProvince AS SP
+ON CR.CountryRegionCode = SP.CountryRegionCode
+GROUP BY CR.Name, SP.CountryRegionCode
+HAVING COUNT(*) < 10
+	
+-- Q5
+
+SELECT SalesPersonID,
+	(SELECT AVG(SubTotal)
+	FROM Sales.SalesOrderHeader
+	WHERE SalesPersonID IS NOT NULL)
+	- AVG(SubTotal) AS SalesDiff
+FROM Sales.SalesOrderHeader
+WHERE SalesPersonID IS NOT NULL
+GROUP BY SalesPersonID
+
+-- Q6: Find out the average ListPrice value in table Production.Product.
+-- Restrict the rows you work on to values 1, 2 and 3 in the column ProductSubcategoryID.
+
+SELECT X.Name, X.Diff
+FROM (
+	SELECT
+		Name,
+		ListPrice -
+			(SELECT AVG(ListPrice)
+			FROM Production.Product
+			WHERE ProductSubcategoryID IN (1, 2, 3))
+		AS Diff
+	FROM Production.Product
+	WHERE ProductSubcategoryID IN (1, 2, 3))
+	AS X
+WHERE Diff BETWEEN -800 AND -400
+
+-- Q7:
+
+SELECT P.FirstName + ' ' + P.LastName AS [Full Name]
+FROM Person.Person AS P 
+	JOIN HumanResources.Employee AS E
+	ON P.BusinessEntityID = E.BusinessEntityID
+WHERE 5000 <
+    (SELECT Bonus
+     FROM Sales.SalesPerson SP
+     WHERE SP.BusinessEntityID = E.BusinessEntityID)
+
 
 	
