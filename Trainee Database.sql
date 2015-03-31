@@ -9,13 +9,13 @@ GO
 -- and add at least 10 records into each created table.
 
 CREATE TABLE Trainee(
-	TraineeID			int IDENTITY(1, 1) PRIMARY KEY,
-	Full_Name			nvarchar(50),
-	Birth_Date			date,
-	Gender				bit,
-	ET_IQ				int,
-	ET_Gmath			int,
-	ET_English			int,
+	TraineeID		int IDENTITY(1, 1) PRIMARY KEY,
+	Full_Name		nvarchar(50),
+	Birth_Date		date,
+	Gender			bit,
+	ET_IQ			int,
+	ET_Gmath		int,
+	ET_English		int,
 	Training_Class		char(10),
 	Evaluation_Notes	nvarchar(500)
 )
@@ -95,13 +95,13 @@ GO
 --group them into different birth months.
 
 SELECT	TraineeID,
-		Full_Name,
-		Birth_Date
+	Full_Name,
+	Birth_Date
 FROM	Trainee
 WHERE	ET_IQ + ET_Gmath >= 20
-		AND ET_IQ >= 8
-		AND ET_Gmath >= 8
-		AND ET_English >= 18
+	AND ET_IQ >= 8
+	AND ET_Gmath >= 8
+	AND ET_English >= 18
 ORDER BY MONTH(Birth_Date)
 
 
@@ -110,10 +110,10 @@ ORDER BY MONTH(Birth_Date)
 --(as defined in the table)
 
 SELECT	TraineeID,
-		Full_Name,
-		Birth_Date,
-		YEAR(GETDATE()) - YEAR(Birth_Date) AS AGE,
-		Gender
+	Full_Name,
+	Birth_Date,
+	YEAR(GETDATE()) - YEAR(Birth_Date) AS AGE,
+	Gender
 FROM	Trainee
 WHERE	LEN(Full_Name) = (SELECT MAX(LEN(Full_Name)) FROM Trainee)
 
