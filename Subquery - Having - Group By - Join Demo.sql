@@ -39,7 +39,7 @@ WHERE CountryRegionCode IN (
 SELECT CR.Name
 FROM Person.CountryRegion AS CR
 	JOIN Person.StateProvince AS SP
-	ON CR.CountryRegionCode = SP.CountryRegionCode
+		ON CR.CountryRegionCode = SP.CountryRegionCode
 GROUP BY CR.Name, SP.CountryRegionCode
 HAVING COUNT(*) < 10
 	
@@ -75,7 +75,7 @@ WHERE Diff BETWEEN -800 AND -400
 SELECT P.FirstName + ' ' + P.LastName AS [Full Name]
 FROM Person.Person AS P 
 	JOIN HumanResources.Employee AS E
-	ON P.BusinessEntityID = E.BusinessEntityID
+		ON P.BusinessEntityID = E.BusinessEntityID
 WHERE 5000 <
     (SELECT Bonus
      FROM Sales.SalesPerson SP
@@ -96,6 +96,54 @@ WHERE NOT EXISTS
 SELECT SP.BusinessEntityID, S.SalesPersonID
 FROM Sales.SalesPerson SP
 	LEFT JOIN Sales.Store S
-	ON SP.BusinessEntityID = S.SalesPersonID
+		ON SP.BusinessEntityID = S.SalesPersonID
 WHERE S.SalesPersonID IS NULL
 
+-- EX2
+-- Q1
+
+SELECT CR.Name, PS.Name
+FROM Person.CountryRegion CR
+	JOIN Person.StateProvince PS
+		ON CR.CountryRegionCode = PS.CountryRegionCode
+
+-- Q2:
+
+SELECT CR.Name, PS.Name
+FROM Person.CountryRegion CR
+	JOIN Person.StateProvince PS
+		ON CR.CountryRegionCode = PS.CountryRegionCode
+WHERE CR.Name = 'Germany'
+	OR CR.Name = 'Canada'
+ORDER BY CR.Name
+
+-- Q3
+
+SELECT
+	SOH.SalesOrderID,
+	CONVERT(VARCHAR(10), SOH.OrderDate, 21)  AS Birthday,
+	SOH.SalesPersonID,
+	SP.BusinessEntityID,
+	SP.Bonus,
+	SP.SalesYTD
+FROM Sales.SalesOrderHeader SOH
+	JOIN Sales.SalesPerson SP
+	ON SP.BusinessEntityID = SOH.SalesPersonID
+WHERE SOH.SalesPersonID IS NOT NULL
+	AND SOH.OnlineOrderFlag != 1
+	
+-- Q4
+
+SELECT
+	SOH.SalesOrderID,
+	CONVERT(VARCHAR(10), SOH.OrderDate, 21) AS Birthday,
+	E.JobTitle,
+	SP.Bonus,
+	SP.SalesYTD
+FROM Sales.SalesOrderHeader SOH
+	JOIN Sales.SalesPerson SP
+		ON SP.BusinessEntityID = SOH.SalesPersonID
+	JOIN HumanResources.Employee E
+		ON E.BusinessEntityID = SP.BusinessEntityID
+WHERE SOH.SalesPersonID IS NOT NULL
+	AND SOH.OnlineOrderFlag != 1
