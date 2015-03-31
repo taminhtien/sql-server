@@ -37,5 +37,20 @@ WHERE CountryRegionCode IN (
 	
 -- Q4-2:
 
-
+SELECT CR.Name
+FROM Person.CountryRegion AS CR
+JOIN Person.StateProvince AS SP
+ON CR.CountryRegionCode = SP.CountryRegionCode
+GROUP BY CR.Name, SP.CountryRegionCode
+HAVING COUNT(*) < 10
 	
+-- Q5
+
+SELECT SalesPersonID,
+	(SELECT AVG(SubTotal)
+	FROM Sales.SalesOrderHeader
+	WHERE SalesPersonID IS NOT NULL)
+	- AVG(SubTotal) AS SalesDiff
+FROM Sales.SalesOrderHeader
+WHERE SalesPersonID IS NOT NULL
+GROUP BY SalesPersonID
