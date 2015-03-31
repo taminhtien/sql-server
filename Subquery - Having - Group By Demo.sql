@@ -98,3 +98,4 @@ FROM Sales.SalesPerson SP
 	LEFT JOIN Sales.Store S
 	ON SP.BusinessEntityID = S.SalesPersonID
 WHERE S.SalesPersonID IS NULL
+
