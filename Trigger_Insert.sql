@@ -1,8 +1,8 @@
 USE tientm
 GO
 
-CREATE TRIGGER trgAfterInsert ON dbo.Employee
-FOR INSERT
+ALTER TRIGGER trgAfterInsert ON dbo.Employee
+AFTER INSERT
 AS
 	DECLARE @emp_id int
 	DECLARE @emp_name varchar(100)
@@ -18,7 +18,7 @@ AS
 	INSERT INTO dbo.Employee_Audit2
 		(Emp_ID, Emp_Name, Emp_Salary, Audit_Action, Audit_Timestamp)
 		VALUES (@emp_id, @emp_name, @emp_salary, @audit_action, GETDATE())
-	PRINT 'AFTER TRIGGER fired'		
+	PRINT 'AFTER INSERT TRIGGER fired'		
 GO
 
 INSERT INTO dbo.Employee VALUES ('Ta Minh Tien', 2000)
